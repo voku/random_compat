@@ -28,13 +28,13 @@ rename(
  * If you leave this out, it will produce an unsigned .phar!
  */
 if ($argc > 1) {
-    if (!@\is_readable($argv[1])) {
+    if (!@is_readable($argv[1])) {
         echo 'Could not read the private key file:', $argv[1], "\n";
         exit(255);
     }
-    $pkeyFile = \file_get_contents($argv[1]);
+    $pkeyFile = file_get_contents($argv[1]);
     
-    $private = \openssl_get_privatekey($pkeyFile);
+    $private = openssl_get_privatekey($pkeyFile);
     if ($private !== false) {
         $pkey = '';
         openssl_pkey_export($private, $pkey);
@@ -43,9 +43,9 @@ if ($argc > 1) {
         /**
          * Save the corresponding public key to the file
          */
-        if (!@\is_readable($dist.'/random_compat.phar.pubkey')) {
-            $details = \openssl_pkey_get_details($private);
-            \file_put_contents(
+        if (!@is_readable($dist.'/random_compat.phar.pubkey')) {
+            $details = openssl_pkey_get_details($private);
+            file_put_contents(
                 $dist.'/random_compat.phar.pubkey',
                 $details['key']
             );
